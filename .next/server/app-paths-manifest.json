@@ -1,4 +1,7 @@
 {
-  "/api/radar/latest/route": "app/api/radar/latest/route.js",
-  "/page": "app/page.js"
+  "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js",
+  "/api/mrms/first/route": "app/api/mrms/first/route.js",
+  "/api/convert/tiff-to-png/route": "app/api/convert/tiff-to-png/route.js",
+  "/api/radar/latest/route": "app/api/radar/latest/route.js"
 }

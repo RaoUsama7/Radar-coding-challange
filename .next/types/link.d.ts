@@ -30,8 +30,8 @@ declare namespace __next_route_internal_types__ {
 
   type StaticRoutes = 
     | `/`
-    | `/api/convert/tiff-to-png`
     | `/api/mrms/first`
+    | `/api/convert/tiff-to-png`
     | `/api/radar/latest`
   type DynamicRoutes<T extends string = string> = never
 
