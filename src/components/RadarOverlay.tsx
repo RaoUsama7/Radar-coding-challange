@@ -132,16 +132,31 @@ export default function RadarOverlay() {
         const div = L.DomUtil.create('div', 'radar-timestamp-control');
         div.innerHTML = `
           <div style="
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 4px;
+            background: linear-gradient(135deg, rgba(11, 16, 32, 0.95) 0%, rgba(15, 21, 48, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            color: #e8edf7;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
             font-family: system-ui, -apple-system, sans-serif;
             font-size: 12px;
             font-weight: 500;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
           ">
-            Last updated: <span id="radar-timestamp">${formatTime(lastUpdated)}</span>
+            <span style="
+              width: 6px;
+              height: 6px;
+              background: #00ff00;
+              border-radius: 50%;
+              box-shadow: 0 0 8px rgba(0, 255, 0, 0.8);
+              animation: blink 1.5s ease-in-out infinite;
+            "></span>
+            <span style="color: #6b7a99; text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px;">Updated:</span>
+            <span id="radar-timestamp" style="color: #00ffff; font-weight: 600; font-variant-numeric: tabular-nums;">${formatTime(lastUpdated)}</span>
           </div>
         `;
         L.DomEvent.disableClickPropagation(div);
