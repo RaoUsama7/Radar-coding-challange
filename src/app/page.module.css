@@ -1,0 +1,37 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: #0b1020;
+  color: #e8edf7;
+}
+
+.header {
+  padding: 16px 20px;
+  background: linear-gradient(180deg, #0f1530, #0b1020);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.header h1 {
+  margin: 0 0 6px 0;
+  font-size: 20px;
+}
+
+.header p {
+  margin: 0;
+  color: #a6b1d0;
+}
+
+.mapSection {
+  flex: 1;
+  position: relative;
+}
+
+.footer {
+  padding: 10px 20px;
+  font-size: 12px;
+  color: #9aa6c8;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
