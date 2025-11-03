@@ -79,7 +79,7 @@ export default function RadarOverlay() {
         // Create and add new overlay
         console.log('Creating Leaflet image overlay...');
         const newOverlay = L.imageOverlay(dataUri, bounds, {
-          opacity: 0.7,
+          opacity: 0.85,
           interactive: false,
           zIndex: 500,
         });

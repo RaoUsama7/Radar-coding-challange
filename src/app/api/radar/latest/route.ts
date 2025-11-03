@@ -64,24 +64,76 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // For now, create a placeholder SVG image since GRIB2 cannot be displayed directly
-    // TODO: Implement GRIB2 parsing to create actual radar visualization
+    // For now, create a radar-style SVG visualization
+    // TODO: Implement GRIB2 parsing to create actual radar visualization with real data
     let imageBase64: string;
     try {
-      // Create a simple placeholder SVG image (1000x600 pixels)
-      // This is a temporary solution until GRIB2 parsing is implemented
       const fileSizeStr = decompressedBuffer.length.toLocaleString();
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+      
+      // Create a more sophisticated radar-style SVG visualization
       const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="1000" height="600" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1000" height="600" fill="#0b1020"/>
-  <text x="500" y="280" font-family="Arial, sans-serif" font-size="24" fill="#ffffff" text-anchor="middle">Alaska Radar - BREF 1HR MAX</text>
-  <text x="500" y="310" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" text-anchor="middle">GRIB2 data loaded successfully</text>
-  <text x="500" y="340" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" text-anchor="middle">File size: ${fileSizeStr} bytes</text>
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0b1020;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1f3a;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="radarGradient" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#00ff00;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#00ffff;stop-opacity:0.15" />
+      <stop offset="100%" style="stop-color:#0000ff;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1000" height="600" fill="url(#bgGradient)"/>
+  
+  <!-- Radar sweep effect (simulated) -->
+  <circle cx="500" cy="300" r="250" fill="url(#radarGradient)" opacity="0.4"/>
+  <circle cx="500" cy="300" r="200" fill="none" stroke="#00ff00" stroke-width="1" opacity="0.3"/>
+  <circle cx="500" cy="300" r="150" fill="none" stroke="#00ffff" stroke-width="1" opacity="0.3"/>
+  <circle cx="500" cy="300" r="100" fill="none" stroke="#0080ff" stroke-width="1" opacity="0.3"/>
+  <circle cx="500" cy="300" r="50" fill="none" stroke="#00ff00" stroke-width="2" opacity="0.5"/>
+  
+  <!-- Crosshair -->
+  <line x1="500" y1="50" x2="500" y2="550" stroke="#ffffff" stroke-width="1" opacity="0.2"/>
+  <line x1="50" y1="300" x2="950" y2="300" stroke="#ffffff" stroke-width="1" opacity="0.2"/>
+  
+  <!-- Radar sweep line (animated-like appearance) -->
+  <line x1="500" y1="300" x2="750" y2="300" stroke="#00ff00" stroke-width="2" opacity="0.6" transform="rotate(45 500 300)"/>
+  
+  <!-- Title with better styling -->
+  <text x="500" y="80" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#00ff00" text-anchor="middle" opacity="0.9">
+    ALASKA RADAR - BREF 1HR MAX
+  </text>
+  
+  <!-- Status info -->
+  <g transform="translate(500, 320)">
+    <rect x="-200" y="-60" width="400" height="120" fill="rgba(0,0,0,0.6)" rx="8" opacity="0.8"/>
+    <text x="0" y="-30" font-family="Arial, sans-serif" font-size="18" fill="#00ffff" text-anchor="middle" font-weight="bold">
+      STATUS: ACTIVE
+    </text>
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle">
+      GRIB2 Data Loaded Successfully
+    </text>
+    <text x="0" y="25" font-family="Arial, sans-serif" font-size="12" fill="#a0a0a0" text-anchor="middle">
+      File Size: ${fileSizeStr} bytes | Updated: ${timeStr}
+    </text>
+  </g>
+  
+  <!-- Corner indicators -->
+  <circle cx="50" cy="50" r="8" fill="#00ff00" opacity="0.6"/>
+  <circle cx="950" cy="50" r="8" fill="#00ff00" opacity="0.6"/>
+  <circle cx="50" cy="550" r="8" fill="#00ff00" opacity="0.6"/>
+  <circle cx="950" cy="550" r="8" fill="#00ff00" opacity="0.6"/>
 </svg>`;
       
       // Convert SVG to base64
       imageBase64 = Buffer.from(svgContent).toString('base64');
-      console.log('Created placeholder SVG, base64 length:', imageBase64.length);
+      console.log('Created radar-style SVG, base64 length:', imageBase64.length);
     } catch (imageError) {
       console.error('Failed to create placeholder image:', imageError);
       // Clean up file on error
